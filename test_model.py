@@ -8,7 +8,7 @@ with open("tokenizer.pkl", "rb") as f:
     tokenizer = pickle.load(f)
 
 # Load model
-model = load_model("xss_cnn_model.h5")
+model = load_model("xss_blstm_cnn_model.h5")
 max_len = 200
 
 # Function to predict XSS
@@ -20,8 +20,12 @@ def predict_xss(text):
 
 # Example tests
 samples = [
-    "	 </span> <span class=""reference-text""><cite class=""citation news""><a rel=""nofollow"" class=""external text"" href=""https://www.economist.com/news/special-report/21700756-artificial-intelligence-boom-based-old-idea-modern-twist-not"">""From not working to neural networking"" </a>. <i>The Economist </i>. 2016<span class=""reference-accessdate"">. Retrieved <span class=""nowrap"">26 April ",
-    "<caption id=x tabindex=1 ondeactivate=alert(1)></caption><input id=y autofocus>"
+   "<script>alert('XSS')</script>",
+    '<div onmouseover="alert(\'XSS\')">Hover me!</div>',
+    '''<form action="/submit" method="POST">
+    <input type="text" name="username">
+    <button type="submit">Submit</button></form>''',
+    '<a href="javascript:alert(\'XSS\')">Click me</a>'
 
 ]
 
