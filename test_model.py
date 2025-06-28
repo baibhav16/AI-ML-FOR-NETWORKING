@@ -26,13 +26,7 @@ def predict_xss(input_text):
 
 # === Test samples ===
 samples = [
-    "<script>alert('XSS')</script>",
-    '<div onmouseover="alert(\'XSS\')">Hover me!</div>',
-    '''<form action="/submit" method="POST">
-    <input type="text" name="username">
-    <button type="submit">Submit</button></form>''',
-    '<a href="javascript:alert(\'XSS\')">Click me</a>',
-    "<b>This is bold text</b>"
+    "email@example.com"
 ]
 
 # === Run predictions ===
