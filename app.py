@@ -6,14 +6,12 @@ import re
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-# === Load tokenizer and model ===
+
 with open("tokenizer.pkl", "rb") as f:
     tokenizer = pickle.load(f)
 
 model = load_model("xss_blstm_cnn_model.h5")
 max_len = 200
-
-# === Prediction Function ===
 def predict_xss(texts):
     sequences = tokenizer.texts_to_sequences(texts)
     padded = pad_sequences(sequences, maxlen=max_len)
@@ -28,7 +26,7 @@ def predict_xss(texts):
         })
     return pd.DataFrame(results)
 
-# === Custom bar style ===
+
 def render_bar(prob, is_attack):
     color = "red" if is_attack else "green"
     percent = int(prob * 100) if is_attack else int((1 - prob) * 100)
@@ -38,22 +36,21 @@ def render_bar(prob, is_attack):
     </div>
     """, unsafe_allow_html=True)
 
-# === UI ===
+
 st.set_page_config(page_title="XSS Detector", layout="wide")
 st.title("🛡️ XSS Attack Detector")
 st.markdown("Paste multiple inputs or upload a file to check each line for XSS vulnerabilities.")
 
-# === Text Area Input ===
 st.subheader("🔹 Paste inputs (one per line):")
 user_input = st.text_area("", placeholder="<script>alert('XSS')</script>", height=150)
 
-# === File Upload ===
+
 st.subheader("🔹 Or upload a .txt/.csv file:")
 uploaded_file = st.file_uploader("", type=["txt", "csv"])
 
 inputs = []
 
-# File Handling
+
 if uploaded_file is not None:
     if uploaded_file.type == "text/plain":
         content = uploaded_file.read().decode("utf-8")
@@ -62,11 +59,10 @@ if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
         inputs = df.iloc[:, 0].dropna().astype(str).tolist()
 
-# Textarea Handling
 if user_input.strip():
     inputs.extend([line.strip() for line in user_input.splitlines() if line.strip()])
 
-# === Prediction Button ===
+
 if st.button("🔍 Analyze"):
     if not inputs:
         st.warning("Please enter or upload some inputs to analyze.")
@@ -82,11 +78,10 @@ if st.button("🔍 Analyze"):
             render_bar(row["Confidence"], is_attack)
             st.markdown("---")
 
-        # Download CSV
         st.subheader("⬇️ Download Results as CSV")
         csv = results_df.to_csv(index=False).encode("utf-8")
         st.download_button("Download CSV", csv, "xss_predictions.csv", "text/csv")
 
-# === Footer ===
+
 st.markdown("<hr style='margin-top:40px;'>", unsafe_allow_html=True)
 
