@@ -16,6 +16,16 @@ Accuracy vs Validation Plotting :
 
 ![Screenshot 2025-06-25 013819](https://github.com/user-attachments/assets/411f4c53-4e44-4534-8373-df7f1cc5abf3)
 
+Demo video  
+[Watch Demo Video](https://drive.google.com/file/d/1bhNv3eBuJjA5tCFHcedXJIm1eVA6sue7/view)
+
+Github Link  
+[Github Repository](https://github.com/baibhav16/AI-ML-FOR-NETWORKING)
+
+Streamlit link  
+[Try XSSdetector](https://detectxss.streamlit.app/)
+
+
 Authors :
  Baibhav Kumar 
  Hetav Desai
